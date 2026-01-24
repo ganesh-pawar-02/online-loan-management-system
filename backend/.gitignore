@@ -1,0 +1,20 @@
+# Java dependencies
+target/
+*.jar
+*.war
+
+# Logs
+logs/
+*.log
+
+# IntelliJ IDEA / Eclipse / VSCode
+.idea/
+.vscode/
+*.iml
+
+
+
+# Maven / Gradle
+.mvn/
+.gradle/
+/.metadata/
