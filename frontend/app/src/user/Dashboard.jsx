@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import React, { useState, useEffect } from 'react';
 import UserSidebar from './UserSidebar';
 import {
@@ -28,8 +29,8 @@ const Dashboard = () => {
   const itemsPerPage = 5;
 
   // URLs for the APIs
-  const API_TRANSACTIONS_URL = 'http://65.2.80.0:8080/transactions';
-  const API_LOANS_SUMMARY_URL = 'http://65.2.80.0:8080/loans/summary';
+  const API_TRANSACTIONS_URL = `${API_BASE_URL}/transactions`;
+  const API_LOANS_SUMMARY_URL = `${API_BASE_URL}/loans/summary`;
 
   const startLoading = () => setLoading(true);
   const endLoading = () => setLoading(false);
@@ -44,7 +45,7 @@ const Dashboard = () => {
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await axios.get(API_TRANSACTIONS_URL, { headers });
+      const response = await axios.get(`${API_BASE_URL}/transactions`, { headers });
       setTransactions(response.data);
     } catch (error) {
       console.error('Error fetching transactions:', error.response || error);
@@ -64,7 +65,7 @@ const Dashboard = () => {
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await axios.get(API_LOANS_SUMMARY_URL, { headers });
+      const response = await axios.get(`${API_BASE_URL}/loans/summary`, { headers });
       setLoanStatus(response.data);
     } catch (error) {
       console.error('Error fetching loan summary:', error.response || error);
@@ -241,3 +242,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

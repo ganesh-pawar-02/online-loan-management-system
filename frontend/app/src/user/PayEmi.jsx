@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Card, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Badge, Pagination } from '@mui/material';
@@ -28,7 +29,7 @@ const PayEmi = () => {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
             };
-            const response = await axios.get('http://65.2.80.0:8080/wallet/balance', { headers });
+            const response = await axios.get(`${API_BASE_URL}/wallet/balance`, { headers });
             setWalletBalance(response.data);
         } catch (error) {
             console.error('Error fetching wallet balance:', error.response?.data || error.message);
@@ -47,7 +48,7 @@ const PayEmi = () => {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
             };
-            const response = await axios.get('http://65.2.80.0:8080/loans/details', { headers });
+            const response = await axios.get(`${API_BASE_URL}/loans/details`, { headers });
             // Filter only approved loans
             const approvedLoans = response.data.filter(loan => loan.status === 'APPROVED');
             setEmiDetails(approvedLoans);
@@ -79,7 +80,7 @@ const PayEmi = () => {
             };
 
             const response = await axios.post(
-                'http://65.2.80.0:8080/wallet/pay-emi',
+                `${API_BASE_URL}/wallet/pay-emi`,
                 { emiAmount, loanId: id },
                 { headers }
             );
@@ -158,3 +159,4 @@ const PayEmi = () => {
 };
 
 export default PayEmi;
+

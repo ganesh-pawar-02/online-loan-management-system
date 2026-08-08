@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -10,7 +11,7 @@ export default function VerifyOtp() {
   const [otp, setOtp] = useState("");
 
   // API endpoint for verifying OTP
-  const API_URL_VERIFY_OTP = "http://65.2.80.0:8080/users/verify-otp";
+  const API_URL_VERIFY_OTP = `${API_BASE_URL}/users/verify-otp`;
 
   // Verify OTP
   const handleVerifyOTP = async () => {
@@ -22,7 +23,7 @@ export default function VerifyOtp() {
     try {
       toast.loading("Verifying OTP...", { id: "otpVerify" });
       const response = await axios.post(
-        API_URL_VERIFY_OTP,
+        `${API_BASE_URL}/users/verify-otp`,
         { email, otp },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -79,3 +80,4 @@ export default function VerifyOtp() {
     </div>
   );
 }
+

@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import React, { useState, useEffect, useCallback } from 'react';
 import { format } from 'date-fns';
 import AdminSidebar from './AdminSidebar';
@@ -42,7 +43,7 @@ const AdminClients = () => {
       if (!token) {
         throw new Error('Authentication token is missing. Please log in.');
       }
-      const response = await fetch('http://65.2.80.0:8080/wallet/balance', {
+      const response = await fetch(`${API_BASE_URL}/wallet/balance`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +67,7 @@ const AdminClients = () => {
     try {
       setLoading(true);
       const token = sessionStorage.getItem('authToken'); // Adjust based on your JWT storage
-      const response = await fetch('http://65.2.80.0:8080/loans/all', {
+      const response = await fetch(`${API_BASE_URL}/loans/all`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -135,7 +136,7 @@ const AdminClients = () => {
   const handleUpdateStatus = async (id, action) => {
     try {
       const token = sessionStorage.getItem('authToken');
-      const response = await fetch(`http://65.2.80.0:8080/loans/${id}/updateStatus`, {
+      const response = await fetch(`${API_BASE_URL}/loans/${id}/updateStatus`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

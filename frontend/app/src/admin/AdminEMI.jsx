@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import React, { useEffect, useState } from "react";
 import { Box, Card, CircularProgress } from "@mui/material";
 import AdminSidebar from "./AdminSidebar";
@@ -22,7 +23,7 @@ const AdminEmi = () => {
     // Fetch EMI Received transactions from the API
     const fetchEmiReceivedTransactions = async () => {
         try {
-            const response = await axios.get("http://65.2.80.0:8080/transactions/emi-received", {
+            const response = await axios.get(`${API_BASE_URL}/transactions/emi-received`, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem("authToken")}`, // Pass token here
                 },
@@ -88,3 +89,4 @@ const AdminEmi = () => {
 };
 
 export default AdminEmi;
+

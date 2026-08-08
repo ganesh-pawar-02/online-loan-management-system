@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import React, { useState, useEffect, useCallback } from 'react';
 import { format } from 'date-fns';
 import AdminSidebar from './AdminSidebar';
@@ -30,7 +31,7 @@ const AdminLoans = () => {
     try {
       setLoading(true);
       const token = sessionStorage.getItem('authToken'); // Adjust based on your JWT storage
-      const response = await fetch('http://65.2.80.0:8080/loans/all', {
+      const response = await fetch(`${API_BASE_URL}/loans/all`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -206,3 +207,4 @@ const AdminLoans = () => {
 };
 
 export default AdminLoans;
+

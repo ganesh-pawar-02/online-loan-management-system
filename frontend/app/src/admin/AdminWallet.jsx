@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Card, Typography, Button, TextField, Grid, Container } from '@mui/material';
@@ -29,7 +30,7 @@ const AdminWallet = ({ setTransactionData }) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       };
-      const response = await axios.get('http://65.2.80.0:8080/wallet/balance', { headers });
+      const response = await axios.get(`${API_BASE_URL}/wallet/balance`, { headers });
       setWalletBalance(response.data);
     } catch (error) {
       console.error('Error fetching wallet balance:', error.response?.data || error.message);
@@ -63,14 +64,14 @@ const AdminWallet = ({ setTransactionData }) => {
 
       if (action === 'add') {
         response = await axios.post(
-          'http://65.2.80.0:8080/wallet/add-funds',
+          `${API_BASE_URL}/wallet/add-funds`,
           { amount: numericAmount },
           { headers }
         );
         successMessage = 'Funds added successfully!';
       } else if (action === 'withdraw') {
         response = await axios.post(
-          'http://65.2.80.0:8080/wallet/withdraw-funds',
+          `${API_BASE_URL}/wallet/withdraw-funds`,
           { amount: numericAmount },
           { headers }
         );

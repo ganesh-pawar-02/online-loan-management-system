@@ -10,5 +10,6 @@ public interface UserService {
     ApiResponse updateUser(UserDTO dto);
     public void changePassword(PasswordChangeRequest changePasswordRequest);
 	UserEntity findById(Long userId);
-    
+    void resetPassword(String email, String newPassword);
+    UserEntity findByEmail(String email);
 }
