@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import React, { useState } from 'react';
 import longFormatters from "date-fns/_lib/format/longFormatters";
 import axios from 'axios'; // Import Axios
@@ -131,8 +132,6 @@ const KYCForm = () => {
   const sourceOfIncomeOptions = ['Salary', 'Business', 'Investments', 'Pension', 'Rent', 'Agriculture', 'Others'];
   const occupationOptions = ['Salaried', 'Self-Employed', 'Business', 'Professional', 'Student', 'Homemaker', 'Retired', 'Others'];
   const incomeProofOptions = ['Salary Slip', 'Bank Statement', 'ITR Acknowledgement', 'Form 16', 'Others'];
-
-  const API_BASE_URL = 'http://65.2.80.0:8080'; // Backend API base URL
 
 
   // Handle form submission

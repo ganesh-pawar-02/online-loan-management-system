@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -8,7 +9,6 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
 
-  const API_URL = 'http://65.2.80.0:8080/users/login';
 
   useEffect(() => {
     const token = sessionStorage.getItem('authToken');
@@ -38,7 +38,7 @@ export default function Login() {
       toast.loading("Logging in...", { id: "loginToast" });
 
       // Make API call using axios
-      const response = await axios.post(API_URL, payload, {
+      const response = await axios.post(`${API_BASE_URL}/users/login`, payload, {
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -129,6 +129,15 @@ export default function Login() {
           </center>
         </div>
         <div className="mt-5 text-center">
+        <p className="text-[13px] cursor-pointer text-slate-400 mt-1">
+              Forgot Password?
+            <span
+              className="ml-1 font-semibold hover:text-blue-900 text-slate-700"
+              onClick={() => navigate('/forgot-password')}
+            >
+              Forgot Password
+            </span>
+          </p>
           <p className="text-[13px] cursor-pointer text-slate-400 mt-1">
             Don't Have an Account?
             <span
@@ -143,3 +152,4 @@ export default function Login() {
     </div>
   );
 }
+

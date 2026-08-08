@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import React, { useEffect, useState } from "react";
 import DataGridTable from "../components/DataGridTable";
 import baseColumns from "../components/columns/UserColumns"; // renamed for clarity
@@ -17,7 +18,7 @@ const AdminUsers = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch("http://65.2.80.0:8080/api/users/AllUsers");
+      const response = await fetch(`${API_BASE_URL}/api/users/AllUsers`);
 
       // Check if the response is OK (status code 200)
       if (!response.ok) {
@@ -115,3 +116,4 @@ const AdminUsers = () => {
 };
 
 export default AdminUsers;
+

@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserSidebar from './UserSidebar'; // Your Sidebar component
@@ -26,7 +27,6 @@ const LoanDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 2; // Number of loans per page
 
-  const API_LOANS_DETAILS_URL = 'http://65.2.80.0:8080/loans/details';
 
   useEffect(() => {
     const fetchLoans = async () => {
@@ -43,7 +43,7 @@ const LoanDetails = () => {
         }
 
         // Fetch data from API
-        const response = await axios.get(API_LOANS_DETAILS_URL, { headers });
+        const response = await axios.get(`${API_BASE_URL}/loans/details`, { headers });
         const data = response.data;
         console.log('API Response Data:', data);
 
@@ -227,3 +227,4 @@ const LoanDetails = () => {
 };
 
 export default LoanDetails;
+

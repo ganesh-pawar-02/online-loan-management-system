@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -20,10 +21,6 @@ export default function Register() {
   const [otpSent, setOtpSent] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
 
-  // API endpoints (adjust as needed)
-  const API_URL_REGISTER = "http://65.2.80.0:8080/users/register";
-  const API_URL_SEND_OTP = "http://65.2.80.0:8080/users/send-otp";
-  const API_URL_VERIFY_OTP = "http://65.2.80.0:8080/users/verify-otp";
 
   // Send OTP to the user's email
   const handleSendOTP = async () => {
@@ -35,7 +32,7 @@ export default function Register() {
     try {
       toast.loading("Sending OTP...", { id: "otpSend" });
       const response = await axios.post(
-        API_URL_SEND_OTP,
+        `${API_BASE_URL}/users/send-otp`,
         { email },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -64,7 +61,7 @@ export default function Register() {
       toast.loading("Verifying OTP...", { id: "otpVerify" });
       // Here we send the email and otp to the verification endpoint
       const response = await axios.post(
-        API_URL_VERIFY_OTP,
+        `${API_BASE_URL}/users/verify-otp`,
         { email, otp },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -133,7 +130,7 @@ export default function Register() {
 
     try {
       toast.loading("Registering...", { id: "registerToast" });
-      const response = await axios.post(API_URL_REGISTER, payload, {
+      const response = await axios.post(`${API_BASE_URL}/users/register`, payload, {
         headers: { "Content-Type": "application/json" },
       });
       toast.dismiss("registerToast");
@@ -326,3 +323,4 @@ export default function Register() {
     </div>
   );
 }
+

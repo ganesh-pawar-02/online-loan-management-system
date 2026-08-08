@@ -1,4 +1,18 @@
 HELP.md
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Maven
+target/
+
+# Uploaded files
+uploads/
+
+# Logs
+*.log
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

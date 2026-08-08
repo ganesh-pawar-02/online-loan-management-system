@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import React, { useEffect, useState } from 'react';
 import AdminSidebar from './AdminSidebar'; // Use the AdminSidebar component
 import AdminNavbar from './AdminNavbar'; // Use the AdminNavbar component
@@ -37,7 +38,7 @@ const AdminDashboard = ({ transactionData }) => {
             if (!token) {
                 throw new Error('Authentication token is missing. Please log in.');
             }
-            const response = await fetch('http://65.2.80.0:8080/wallet/balance', {
+            const response = await fetch(`${API_BASE_URL}/wallet/balance`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,13 +60,13 @@ const AdminDashboard = ({ transactionData }) => {
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                const response = await axios.get('http://65.2.80.0:8080/api/users/AllUsers/count');
+                const response = await axios.get(`${API_BASE_URL}/api/users/AllUsers/count`);
                 setRegisteredUsersCount(response.data);
 
-                const responseL = await axios.get('http://65.2.80.0:8080/loan-applications/Loancount');
+                const responseL = await axios.get(`${API_BASE_URL}/loan-applications/Loancount`);
                 setLoanAppliedCount(responseL.data);
 
-                const responseK = await axios.get('http://65.2.80.0:8080/kyc/kyccount');
+                const responseK = await axios.get(`${API_BASE_URL}/kyc/kyccount`);
                 setKycAppliedCount(responseK.data);
             } catch (error) {
                 console.error('Error fetching dashboard data:', error);

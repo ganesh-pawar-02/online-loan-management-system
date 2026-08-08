@@ -29,6 +29,7 @@ import LoanApplicationForm from './user/LoanApplication';
 // Logout Routes
 import Logout from './auth/Logout'; // Import Logout component
 import AdminLogout from './admin/AdminLogout';
+import ForgotPassword from "./auth/ForgotPassword";
 
 // Shared Wallet Context
 import { SharedWalletProvider } from './components/SharedWallet';
@@ -185,7 +186,8 @@ export default function App() {
           </ProtectedRoute>
         }
       />
-
+      {/* Forgot Password */}
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       {/* Logout Route */}
       <Route path="logout" element={<Logout />} />
 

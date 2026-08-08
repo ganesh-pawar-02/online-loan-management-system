@@ -1,3 +1,4 @@
+import API_BASE_URL from "../config/api";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -143,7 +144,7 @@ const LoanApplicationForm = () => {
           return;
         }
 
-        const response = await axios.post("http://65.2.80.0:8080/loan-applications/apply", formData, {
+        const response = await axios.post(`${API_BASE_URL}/loan-applications/apply`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -258,3 +259,4 @@ const LoanApplicationForm = () => {
 };
 
 export default LoanApplicationForm;
+

@@ -103,6 +103,23 @@ public class UserServiceImpl implements UserService {
 	            .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 	}
 
+    @Override
+    public void resetPassword(String email, String newPassword) {
+
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public UserEntity findByEmail(String email) {
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 	 
 
 }
