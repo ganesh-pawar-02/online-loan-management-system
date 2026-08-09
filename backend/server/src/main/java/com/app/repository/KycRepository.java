@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.app.pojos.KycEntity;
 @Repository
 public interface KycRepository extends JpaRepository<KycEntity, Long> {
-  KycEntity findByUserId(Long userId);
+  Optional<KycEntity> findByUserId(Long userId);
   
 	@Query("SELECT COUNT(u) FROM KycEntity u")
     Long countKycUsers();

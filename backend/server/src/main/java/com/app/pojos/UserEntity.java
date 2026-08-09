@@ -1,119 +1,159 @@
 package com.app.pojos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
-//@Getter
-//@Setter
-@ToString(callSuper = true, exclude = { "password" })
+@ToString(callSuper = true, exclude = {"password", "wallet", "kyc"})
 public class UserEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long id;
 
-	@Column(name = "first_name", length = 20)
-	private String firstName;
+    // =========================
+    // User Profile Information
+    // =========================
 
-	@Column(name = "last_name", length = 20)
-	private String lastName;
+    @Column(name = "first_name", length = 20)
+    private String firstName;
 
-	@Column(length = 100, unique = true)
-	private String email;
+    @Column(name = "last_name", length = 20)
+    private String lastName;
 
-	@Column(length = 500, nullable = false)
-	private String password;
+    @Column(length = 100, unique = true)
+    private String email;
 
-	@Column(length = 15, nullable = false, name = "phone_number")
-	private String phone;
+    @Column(length = 500, nullable = false)
+    private String password;
 
-	// Unidirectional mapping to WalletEntity
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "wallet_id")
-//	@JsonIgnoreProperties("user") // This can now be removed if WalletEntity no longer has a 'user' field.
-	private WalletEntity wallet;
+    @Column(length = 15, nullable = false, name = "phone_number")
+    private String phone;
 
-	@Enumerated(EnumType.STRING)
-	@Column(length = 30)
-	private UserRole role;
+    @Column(name = "profile_picture_path")
+    private String profilePicturePath;
 
-	@PrePersist
-	private void setDefaultRole() {
-		if (role == null) {
-			role = UserRole.ROLE_USER;
-		}
+    // =========================
+    // Wallet
+    // =========================
 
-	}
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "wallet_id")
+    private WalletEntity wallet;
 
-	public Long getId() {
-		return id;
-	}
+    // =========================
+    // KYC
+    // =========================
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @OneToOne(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonIgnore
+    private KycEntity kyc;
 
-	public String getFirstName() {
-		return firstName;
-	}
+    // =========================
+    // Role
+    // =========================
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    @Enumerated(EnumType.STRING)
+    @Column(length = 30)
+    private UserRole role;
 
-	public String getLastName() {
-		return lastName;
-	}
+    @PrePersist
+    private void setDefaultRole() {
+        if (role == null) {
+            role = UserRole.ROLE_USER;
+        }
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    // =========================
+    // Getters / Setters
+    // =========================
 
-	public String getEmail() {
-		return email;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public WalletEntity getWallet() {
-		return wallet;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setWallet(WalletEntity wallet) {
-		this.wallet = wallet;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public UserRole getRole() {
-		return role;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setRole(UserRole role) {
-		this.role = role;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public WalletEntity getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(WalletEntity wallet) {
+        this.wallet = wallet;
+    }
+
+    public KycEntity getKyc() {
+        return kyc;
+    }
+
+    public void setKyc(KycEntity kyc) {
+        this.kyc = kyc;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public String getProfilePicturePath() {
+        return profilePicturePath;
+    }
+
+    public void setProfilePicturePath(String profilePicturePath) {
+        this.profilePicturePath = profilePicturePath;
+    }
 }

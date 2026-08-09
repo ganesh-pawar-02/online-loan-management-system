@@ -1,20 +1,15 @@
 package com.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.ApiResponse;
-import com.app.dto.KycDetailsUpdateRequest;
 import com.app.dto.KycRequest;
-import com.app.pojos.KycEntity;
-import com.app.security.JwtUtils;
+import com.app.dto.KycResponse;
+import com.app.security.CustomUserDetailsImpl;
 import com.app.service.KycService;
-
-import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/kyc")
@@ -23,56 +18,81 @@ public class KYCController {
 
     @Autowired
     private KycService kycService;
-    
-    @Autowired
-    private JwtUtils jwtUtil;
 
-    @GetMapping("/user/profile")
-    public ResponseEntity<?> getKYCByUserId(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        String token = authHeader.substring(7);
+    // =========================================================
+    // GET MY KYC PROFILE
+    // =========================================================
 
-        Claims claims = jwtUtil.validateJwtToken(token);
-        Long userId = jwtUtil.getUserIdFromJwtToken(claims);
+    @GetMapping("/profile")
+    public ResponseEntity<?> getMyKyc(
+            Authentication authentication) {
 
-        KycEntity kyc = kycService.getKycRecordsByUserId(userId);
-        if (kyc != null) {
-            return ResponseEntity.ok(kyc);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("KYC record not found for user ID: " + userId));
-        }
+        CustomUserDetailsImpl userDetails =
+                (CustomUserDetailsImpl) authentication.getPrincipal();
+
+        Long userId =
+                userDetails.getUserEntity().getId();
+
+        KycResponse response =
+                kycService.getMyKyc(userId);
+
+        return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/user/update")
-    public ResponseEntity<KycEntity> updateKycDetails(
-            HttpServletRequest request,
-            @RequestBody KycDetailsUpdateRequest kycDetailsUpdateRequest) {
+    // =========================================================
+    // UPDATE / SUBMIT MY KYC
+    // =========================================================
 
-        String authHeader = request.getHeader("Authorization");
-        String token = authHeader.substring(7);
+    @PutMapping(
+            value = "/profile",
+            consumes = "multipart/form-data"
+    )
+    public ResponseEntity<?> updateMyKyc(
+            @ModelAttribute KycRequest kycRequest,
+            Authentication authentication) {
 
-        Claims claims = jwtUtil.validateJwtToken(token);
-        Long userId = jwtUtil.getUserIdFromJwtToken(claims);
+        CustomUserDetailsImpl userDetails =
+                (CustomUserDetailsImpl) authentication.getPrincipal();
 
-        KycEntity updatedDetails = kycService.updateKycDetails(userId, kycDetailsUpdateRequest);
-        return ResponseEntity.ok(updatedDetails);
+        Long userId =
+                userDetails.getUserEntity().getId();
+
+        ApiResponse response =
+                kycService.updateMyKyc(
+                        userId,
+                        kycRequest
+                );
+
+        return ResponseEntity.ok(response);
     }
+
+    // =========================================================
+    // GET KYC COUNT
+    // =========================================================
 
     @GetMapping("/kyccount")
-    public Long getLoanAppliedUsersCount() {
+    public Long getKycUsersCount() {
+
         return kycService.countKycUsers();
     }
 
-    @PostMapping(consumes = { "multipart/form-data" })
-    public ResponseEntity<ApiResponse> createKYC(@RequestBody KycRequest kycRequest) {
-        try {
-            ApiResponse response = kycService.createKycRecord(kycRequest);
+    // =========================================================
+    // GET KYC STATUS
+    // =========================================================
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body(new ApiResponse("Error creating KYC record: " + e.getMessage()));
-        }
+    @GetMapping("/status")
+    public ResponseEntity<?> getKycStatus(
+            Authentication authentication) {
+
+        CustomUserDetailsImpl userDetails =
+                (CustomUserDetailsImpl) authentication.getPrincipal();
+
+        Long userId =
+                userDetails.getUserEntity().getId();
+
+        String status =
+                kycService.getKycStatus(userId);
+
+        return ResponseEntity.ok(status);
     }
 }
